@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signup Form</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  #signup-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+
+  .error,
+  .success {
+    font-size: 14px;
+  }
+
+  .error {
+    color: red;
+  }
+
+  .success {
+    color: green;
+  }
+
+  button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  button[type="submit"]:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+</style>
+</head>
+<body>
+
+<form id="signup-form">
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+    <span id="username-error" class="error"></span>
+  </div>
+  <div class="form-group">
+    <label for="email">Email Address:</label>
+    <input type="email" id="email" name="email">
+    <span id="email-error" class="error"></span>
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password">
+    <span id="password-error" class="error"></span>
+  </div>
+  <button type="submit" id="submit-btn" disabled>Submit</button>
+</form>
+
+<script>
+  const form = document.getElementById('signup-form');
+  const usernameInput = document.getElementById('username');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const submitBtn = document.getElementById('submit-btn');
+
+  form.addEventListener('input', function(event) {
+    const target = event.target;
+    const errorSpan = document.getElementById(`${target.id}-error`);
+
+    switch(target.id) {
+      case 'username':
+        if (target.value.length < 6 || !/^[a-zA-Z0-9]+$/.test(target.value)) {
+          errorSpan.textContent = 'Username must be alphanumeric and at least 6 characters long.';
+          errorSpan.classList.remove('success');
+          errorSpan.classList.add('error');
+        } else {
+          errorSpan.textContent = 'Success';
+          errorSpan.classList.remove('error');
+          errorSpan.classList.add('success');
+        }
+        break;
+      case 'email':
+        if (!target.value.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+          errorSpan.textContent = 'Email address must be in a valid format.';
+          errorSpan.classList.remove('success');
+          errorSpan.classList.add('error');
+        } else {
+          errorSpan.textContent = 'Success';
+          errorSpan.classList.remove('error');
+          errorSpan.classList.add('success');
+        }
+        break;
+      case 'password':
+        if (target.value.length < 8) {
+          errorSpan.textContent = 'Password must be at least 8 characters long.';
+          errorSpan.classList.remove('success');
+          errorSpan.classList.add('error');
+        } else {
+          errorSpan.textContent = 'Success';
+          errorSpan.classList.remove('error');
+          errorSpan.classList.add('success');
+        }
+        break;
+    }
+
+    checkFormValidity();
+  });
+
+  function checkFormValidity() {
+    if (usernameInput.value.length >= 6 && usernameInput.value.match(/^[a-zA-Z0-9]+$/)
+        && emailInput.value.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+        && passwordInput.value.length >= 8) {
+      submitBtn.disabled = false;
+    } else {
+      submitBtn.disabled = true;
+    }
+  }
+</script>
+
+</body>
+</html>
